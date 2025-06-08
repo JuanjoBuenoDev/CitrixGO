@@ -1,19 +1,16 @@
 <script lang="ts">
   import Table from '$lib/components/Table.svelte';
-  import type { DDCDTO } from '$lib/types/DDCDTO';
-  import type { CitrixSiteDTO } from '$lib/types/CitrixSiteDTO';
-  import { ddc, citrixsite } from '$stores/citrix';
+  import UserCountChart from '$lib/components/UserCountChart.svelte';
+  import { ddc, citrixsite, users } from '$stores/citrix';
 
-  let error = ''; // Opcional: si quieres mostrar errores propios de la UI, pero conexión ya no es manejada aquí
+  let error = '';
 
-  // Función para formatear valores booleanos a Sí / No
   function formatBoolean(value: any): string {
     if (value === true) return 'Sí';
     if (value === false) return 'No';
     return String(value);
   }
 
-  // Convertimos $citrixsite a array clave-valor para filas con valores formateados
   $: citrixLicenseRows = $citrixsite
     ? [
         { label: 'Edición de licencia', value: $citrixsite.licenseEdition },
@@ -29,38 +26,71 @@
         { label: 'Log Data Store', value: $citrixsite.dataStoreLog }
       ]
     : [];
+
+  // Reactivo para obtener el número actual de usuarios del store
+  $: userCount = $users ? $users.length : 0;
 </script>
 
-<h1 class="text-xl font-bold mb-4">DDCs (desde store)</h1>
+<div class="space-y-8">
+  <!-- Sección DDCs -->
+  <section>
+    <h1 class="text-xl font-bold mb-4">DDCs (desde store)</h1>
 
-{#if error}
-  <p class="text-red-600">{error}</p>
-{:else if !$ddc || $ddc.length === 0}
-  <p>Cargando DDCS...</p>
-{:else}
-  <Table
-    rows={$ddc}
-    columns={[
-      { key: 'dnsName', label: 'DNS Name' },
-      { key: 'state', label: 'Estado' },
-      { key: 'desktopsRegistered', label: 'Escritorios Registrados' }
-    ]}
-  />
-{/if}
+    {#if error}
+      <p class="text-red-600">{error}</p>
+    {:else if !$ddc || $ddc.length === 0}
+      <p class="text-gray-600">Cargando DDCS...</p>
+    {:else}
+      <Table
+        rows={$ddc}
+        columns={[
+          { key: 'dnsName', label: 'DNS Name' },
+          { key: 'state', label: 'Estado' },
+          { key: 'desktopsRegistered', label: 'Escritorios Registrados' }
+        ]}
+      />
+    {/if}
+  </section>
 
-<h1 class="text-xl font-bold mt-8 mb-4">Información del sitio Citrix</h1>
+  <!-- Sección Información del sitio -->
+  <section>
+    <h1 class="text-xl font-bold mb-4">Información del sitio Citrix</h1>
 
-{#if !$citrixsite}
-  <p>Cargando información del sitio...</p>
-{:else}
-  <table class="min-w-full border border-gray-300 rounded-lg overflow-hidden shadow-md">
-    <tbody>
-      {#each citrixLicenseRows as row, i}
-        <tr class="{i % 2 === 0 ? 'bg-gray-50' : 'bg-white'} hover:bg-blue-50 transition-colors">
-          <td class="border px-6 py-3 font-semibold text-gray-700 w-1/3">{row.label}</td>
-          <td class="border px-6 py-3 text-gray-900">{row.value}</td>
-        </tr>
-      {/each}
-    </tbody>
-  </table>
-{/if}
+    {#if !$citrixsite}
+      <p class="text-gray-600">Cargando información del sitio...</p>
+    {:else}
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <table class="min-w-full">
+          <tbody>
+            {#each citrixLicenseRows as row, i}
+              <tr class="{i % 2 === 0 ? 'bg-gray-50' : 'bg-white'} hover:bg-blue-50 transition-colors">
+                <td class="border-b border-gray-200 px-6 py-3 font-semibold text-gray-700 w-1/3">
+                  {row.label}
+                </td>
+                <td class="border-b border-gray-200 px-6 py-3 text-gray-900">
+                  {row.value || 'N/A'}
+                </td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
+    {/if}
+  </section>
+
+  <!-- Sección Gráfica de usuarios -->
+  <section>
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg font-semibold text-gray-800">
+        Usuarios conectados (última hora)
+      </h2>
+      <div class="text-sm text-gray-600">
+        Usuarios actuales: <span class="font-bold text-blue-600">{userCount}</span>
+      </div>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow-md">
+      <UserCountChart userCount={userCount} />
+    </div>
+  </section>
+</div>

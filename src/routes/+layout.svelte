@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount } from 'svelte';
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import AppBar from '$lib/components/AppBar.svelte';
 	import { citrixSyncService } from '$lib/services/CitrixSyncService';
@@ -7,10 +7,6 @@
 
 	onMount(() => {
 		citrixSyncService.start();
-	});
-
-	onDestroy(() => {
-		citrixSyncService.stop();
 	});
 </script>
 
@@ -26,4 +22,3 @@
 		</main>
 	</div>
 </div>
-
