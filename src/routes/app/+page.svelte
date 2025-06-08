@@ -1,2 +1,2 @@
-<!-- src/routes/settings/+page.svelte -->
-<h2 class="text-2xl font-semibold">Página APP</h2>
+<h1 class="text-2xl font-semibold mb-4">Pagina de Aplicaciones</h1>
+<!-- Aquí mostrarás estadísticas, tarjetas, etc. -->
