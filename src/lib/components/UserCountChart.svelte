@@ -242,6 +242,6 @@
     });
   </script>
   
-  <div class="w-full h-64 p-4 bg-white rounded-lg shadow-sm border border-gray-200">
+  <div class="w-full h-64 p-4 bg-white rounded-lg shadow-sm border border-gray-200" style="height:40vh; max-height:16rem;">
     <canvas bind:this={canvas} class="w-full h-full"></canvas>
   </div>

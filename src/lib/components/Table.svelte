@@ -1,7 +1,15 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
   export let rows: any[] = [];
   export let columns: { key: string; label: string }[] = [];
-  export let rowMode = false; // nuevo flag para modo fila en vez de columnas
+  export let rowMode = false;
+  export let selectedRow: any = null; // fila seleccionada opcional
+
+  const dispatch = createEventDispatcher();
+
+  function handleSelect(row: any) {
+    dispatch('select', row);
+  }
 </script>
 
 <table class="min-w-full border-collapse rounded-lg overflow-hidden shadow-lg">
@@ -17,7 +25,12 @@
     </thead>
     <tbody>
       {#each rows as row, i}
-        <tr class="bg-white hover:bg-blue-50 transition-colors {i % 2 === 0 ? 'bg-gray-50' : ''}">
+        <tr
+          class="cursor-pointer transition-colors 
+            {selectedRow === row ? 'bg-blue-100' : i % 2 === 0 ? 'bg-gray-50' : 'bg-white'}
+            hover:bg-blue-50"
+          on:click={() => handleSelect(row)}
+        >
           {#each columns as column}
             <td class="px-6 py-4 text-sm text-gray-700 whitespace-nowrap">
               {row[column.key]}
@@ -39,4 +52,3 @@
     </tbody>
   {/if}
 </table>
-
