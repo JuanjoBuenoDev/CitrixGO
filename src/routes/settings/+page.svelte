@@ -1,6 +1,6 @@
 <script lang="ts">
     import { setApiBaseUrl } from '$lib/api';
-    import { setWebSocketUrl, disconnectCitrixWebSocket } from '$lib/websocketManager';
+    import { setWebSocketUrl} from '$lib/websocketManager';
   
     let ipInput = '79.117.222.200';
   
@@ -8,15 +8,15 @@
     const wsPortPath = ':8080/ws/citrix';
   
     function applyNewIp() {
-      const apiUrl = `http://${ipInput}${apiPortPath}`;
-      const wsUrl = `ws://${ipInput}${wsPortPath}`;
-  
-      setApiBaseUrl(apiUrl);
-      setWebSocketUrl(wsUrl);
-      disconnectCitrixWebSocket();
-  
-      alert('URLs actualizadas');
-    }
+  const apiUrl = `http://${ipInput}${apiPortPath}`;
+  const wsUrl = `ws://${ipInput}${wsPortPath}`;
+
+  setApiBaseUrl(apiUrl);
+  setWebSocketUrl(wsUrl);  // Esto desconecta y conecta automáticamente
+
+  alert('URLs actualizadas y WebSocket reconectado');
+}
+
   </script>
   
   <div class="max-w-md mx-auto mt-20 p-6 bg-white rounded-lg shadow-lg">
@@ -37,5 +37,6 @@
       Aplicar nueva IP
     </button>
   </div>
+  
   
 
