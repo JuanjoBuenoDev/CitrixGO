@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">citrixgo</string>
+    <string name="title_activity_main">citrixgo</string>
+    <string name="package_name">com.juanjobuenodev.citrixgo</string>
+    <string name="custom_url_scheme">com.juanjobuenodev.citrixgo</string>
+</resources>

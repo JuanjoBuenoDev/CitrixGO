@@ -1,0 +1,6 @@
+{
+	"appId": "com.juanjobuenodev.citrixgo",
+	"appName": "citrixgo",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}

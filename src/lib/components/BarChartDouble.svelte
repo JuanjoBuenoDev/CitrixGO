@@ -70,5 +70,5 @@
 </script>
 
 <div class="max-w-full overflow-x-auto p-4 bg-white rounded-lg shadow-md">
-  <canvas bind:this={canvas} />
+  <canvas bind:this={canvas}></canvas>
 </div>
