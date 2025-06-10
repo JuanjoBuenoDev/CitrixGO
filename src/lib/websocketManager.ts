@@ -5,7 +5,7 @@ class WebSocketManager {
     private url: string;
     private onMessageCallback: ((data: any) => void) | null = null;
 
-    constructor(url = 'wss://localhost:8443/ws/citrix') {
+    constructor(url = 'wss://192.168.1.135:8443/ws/citrix') {
         this.url = url;
     }
 
