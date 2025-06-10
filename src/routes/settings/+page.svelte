@@ -4,18 +4,22 @@
   
     let ipInput = '79.117.222.200';
   
-    const apiPortPath = ':8080/api/citrix';
-    const wsPortPath = ':8080/ws/citrix';
-  
     function applyNewIp() {
-  const apiUrl = `http://${ipInput}${apiPortPath}`;
-  const wsUrl = `ws://${ipInput}${wsPortPath}`;
+  const protocol = window.location.protocol === 'https:' ? 'https' : 'http';
+  const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+
+  const apiPort = 8080;
+  const wsPort = 8443;
+
+  const apiUrl = `${protocol}://${ipInput}:${apiPort}/api/citrix`;
+  const wsUrl = `${wsProtocol}://${ipInput}:${wsPort}/ws/citrix`;
 
   setApiBaseUrl(apiUrl);
-  setWebSocketUrl(wsUrl);  // Esto desconecta y conecta automáticamente
+  setWebSocketUrl(wsUrl);
 
   alert('URLs actualizadas y WebSocket reconectado');
 }
+
 
   </script>
   
